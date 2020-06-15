@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<manage>
+    <!-- 模板 -->
+    <!--<password id="1">
+        <websiteUrl>www.baidu.com</websiteUrl>
+        <websiteName>百度</websiteName>
+        <account>baidu</account>
+        <userName>小百度</userName>
+        <pwd>12345</pwd>
+        <qq>646305816</qq>
+        <email>646305816@qq.com</email>
+        <mobileNumber>13543494223</mobileNumber>
+        <remarks>这是我的备注</remarks>
+        <securityQuestions>
+            <SecurityQuestion>
+                <question>你们名字</question>
+                <answer>强哥</answer>
+            </SecurityQuestion>
+            <SecurityQuestion>
+                <question>你住哪里</question>
+                <answer>广州</answer>
+            </SecurityQuestion>
+        </securityQuestions>
+    </password>-->
+</manage>

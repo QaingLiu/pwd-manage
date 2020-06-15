@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>查看预览</title>
+
+    <!-- layui css -->
+    <link th:href="@{/plugins/layui-v2.5.6/css/layui.css}" rel="stylesheet">
+
+    <style>
+        .info{
+            width: 100%;
+            height: 35px;
+            line-height: 35px;
+            border-bottom: 2px solid ghostwhite;
+            margin: 5px 10px;
+        }
+
+        .info-title{
+            display: inline-block;
+            width: 70px;
+        }
+
+        .info-text{
+            /*margin-left: 50px;*/
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+            <div class="info">
+                <span class="info-title">网站名称:</span>
+                <span class="info-text" th:text="${pwdManage.websiteName}"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">网站地址:</span>
+                <a th:href="${pwdManage.websiteUrl}" th:text="${pwdManage.websiteUrl}" target="_blank" class="info-text" style="color: blue;"></a>
+            </div>
+            <div class="info">
+                <span class="info-title">账号:</span>
+                <span class="info-text" th:text="${pwdManage.account}"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">密码:</span>
+                <span class="info-text" th:text="${pwdManage.pwd}" style="color: red;"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">用户名:</span>
+                <span class="info-text" th:text="${pwdManage.userName}"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">昵称:</span>
+                <span class="info-text" th:text="${pwdManage.nickName}"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">QQ:</span>
+                <span class="info-text" th:text="${pwdManage.qq}"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">Email:</span>
+                <span class="info-text" th:text="${pwdManage.email}"></span>
+            </div>
+            <div class="info">
+                <span class="info-title">手机号:</span>
+                <span class="info-text" th:text="${pwdManage.mobileNumber}"></span>
+            </div>
+            <div class="info" th:each="sq,sqStat : ${pwdManage.securityQuestions}" style="height: 100px;">
+                <div th:text="'密保问题' + ${sqStat.index + 1} + ': '"></div>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <span style="display: inline-block; width: 50px;">问题:</span>
+                        <span class="info-text" th:text="${sq.question}"></span>
+                    </div>
+                    <div>
+                        <span style="display: inline-block; width: 50px;">答案:</span>
+                        <span class="info-text" th:text="${sq.answer}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="info">
+                <div>备注:</div>
+                <pre th:text="${pwdManage.remarks}" style="margin-left: 20px; margin-bottom: 20px; line-height: 25px;"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
