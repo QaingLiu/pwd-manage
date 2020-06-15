@@ -6,9 +6,9 @@
 
 ## 启动项目
 系统非常简单，也很小，直接编译就能正常运行：
-1.进入系统目录：pwd-manage
-2.maven打包：mvn clean install
-3.运行：java -jar .\target\pwd-manage-1.0.0.jar
+- 1.进入系统目录：pwd-manage
+- 2.maven打包：mvn clean install
+- 3.运行：java -jar .\target\pwd-manage-1.0.0.jar
 
 运行完会打印访问地址：
 ---------------------------------------------------------
@@ -20,9 +20,9 @@
 *说明：所有的数据保存在xml文件中，其中密码、邮箱、手机号、密保问题都是经过加密的*
 
 ## 预览效果
-![首页](https://github.com/QaingLiu/pwd-manage/img/index.png)
+![首页](https://github.com/QaingLiu/pwd-manage/tree/master/img/index.png)
 
-![新增](https://github.com/QaingLiu/pwd-manage/img/add.png)
+![新增](https://github.com/QaingLiu/pwd-manage/tree/master/img/add.png)
 
-![生成随机密码](https://github.com/QaingLiu/pwd-manage/img/ramPwd.png)
+![生成随机密码](https://github.com/QaingLiu/pwd-manage/tree/master/img/ramPwd.png)
 
