@@ -1,5 +1,6 @@
 package com.lq.pwdmanage;
 
+import com.lq.pwdmanage.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 @EnableAsync
 @SpringBootApplication
@@ -31,23 +33,23 @@ public class PwdManageApplication implements ApplicationListener<WebServerInitia
         WebServer server = event.getWebServer();
         WebServerApplicationContext context = event.getApplicationContext();
         Environment env = context.getEnvironment();
-        String ip = null;
-        try {
-            ip = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
         int port = server.getPort();
         String contextPath = env.getProperty("server.servlet.context-path");
         if (contextPath == null) {
             contextPath = "";
         }
-        log.info("\n---------------------------------------------------------\n" +
-                "\tApplication is running! Access address:\n" +
-                "\tLocal:\t\thttp://localhost:{}" +
-                "\n\tExternal:\thttp://{}:{}{}" +
-                "\n---------------------------------------------------------\n",
-                port, ip, port, contextPath);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n---------------------------------------------------------\n");
+        sb.append("\tApplication is running! Access address:\n");
+        sb.append("\tLocal:\t\thttp://localhost:" + port + contextPath);
+        //获取本机所有IP地址
+        List<String> localIPList = CommonUtils.getLocalIPList();
+        for(String ip : localIPList){
+            sb.append("\n\tExternal:\thttp://" + ip + ":" + port + contextPath);
+        }
+        sb.append("\n---------------------------------------------------------\n");
+        log.info(sb.toString());
     }
 
 }
