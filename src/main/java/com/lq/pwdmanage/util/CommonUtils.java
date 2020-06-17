@@ -54,34 +54,4 @@ public class CommonUtils {
         return securityQuestions;
     }
 
-    /**
-     * 获取本机所有IP
-     * @return
-     */
-    public static List<String> getLocalIPList() {
-        List<String> ipList = new ArrayList<String>();
-        try {
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-            NetworkInterface networkInterface;
-            Enumeration<InetAddress> inetAddresses;
-            InetAddress inetAddress;
-            String ip;
-            while (networkInterfaces.hasMoreElements()) {
-                networkInterface = networkInterfaces.nextElement();
-                inetAddresses = networkInterface.getInetAddresses();
-                while (inetAddresses.hasMoreElements()) {
-                    inetAddress = inetAddresses.nextElement();
-                    // IPV4
-                    if (inetAddress != null && inetAddress instanceof Inet4Address) {
-                        ip = inetAddress.getHostAddress();
-                        ipList.add(ip);
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        return ipList;
-    }
-
 }

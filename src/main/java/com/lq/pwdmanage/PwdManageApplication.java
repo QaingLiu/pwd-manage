@@ -1,6 +1,7 @@
 package com.lq.pwdmanage;
 
 import com.lq.pwdmanage.util.CommonUtils;
+import com.lq.pwdmanage.util.LocalHostUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -44,8 +45,8 @@ public class PwdManageApplication implements ApplicationListener<WebServerInitia
         sb.append("\tApplication is running! Access address:\n");
         sb.append("\tLocal:\t\thttp://localhost:" + port + contextPath);
         //获取本机所有IP地址
-        List<String> localIPList = CommonUtils.getLocalIPList();
-        for(String ip : localIPList){
+        String[] localIPs = LocalHostUtil.getLocalIPs();
+        for(String ip : localIPs){
             sb.append("\n\tExternal:\thttp://" + ip + ":" + port + contextPath);
         }
         sb.append("\n---------------------------------------------------------\n");
