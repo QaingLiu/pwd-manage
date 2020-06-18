@@ -18,7 +18,7 @@ public class DESUtil {
     /**
      * 字符串默认键值
      */
-    public static String DEFAULT_KEY = "FwRH3gdg7Wry23456ovxx6789gf";
+    public static String DEFAULT_KEY = "FwRH3gdg7Wryovxx";
 
     /**
      * 将byte数组转换为表示16进制值的字符串， 如：byte[]{8,18}转换为：0813， 和public static byte[]
