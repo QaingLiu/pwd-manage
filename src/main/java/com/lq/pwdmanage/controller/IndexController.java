@@ -76,7 +76,7 @@ public class IndexController {
     @ResponseBody
     @PostMapping("/add")
     public Object add(Model model, @RequestBody PwdManage pwdManage) {
-        log.info("新增: {}", pwdManage);
+        log.info("新增: {}", pwdManage.getWebsiteName());
         manageService.add(pwdManage);
         return true;
     }
@@ -114,7 +114,7 @@ public class IndexController {
     @ResponseBody
     @PostMapping("/update")
     public Object update(Model model, @RequestBody PwdManage pwdManage) {
-        log.info("更新: {}", pwdManage);
+        log.info("更新: {}", pwdManage.getWebsiteName());
         manageService.update(pwdManage);
         return true;
     }
