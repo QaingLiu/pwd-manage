@@ -80,10 +80,10 @@
                                             <a href="javascript:void(0)" th:onclick="openPreview([[${data.id}]]);" class="btn btn-link" style="color: blue">
                                                 查看
                                             </a>
-                                            <a href="javascript:void(0)" th:onclick="openForm('edit', [[${data.id}]]);" class="btn btn-link" style="color: blue">
+                                            <a href="javascript:void(0)" th:onclick="openForm('edit', [[${data.id}]]);" class="btn btn-link" style="color: magenta">
                                                 编辑
                                             </a>
-                                            <a href="javascript:void(0)" th:onclick="del([[${data.id}]]);" class="btn btn-link" style="color: blue">
+                                            <a href="javascript:void(0)" th:onclick="del([[${data.id}]]);" class="btn btn-link" style="color: red;">
                                                 删除
                                             </a>
                                         </td>
@@ -212,7 +212,7 @@
         } else {
             target = document.querySelector('#' + id);
         }
- 
+
         try {
             var range = document.createRange();
             range.selectNode(target);
