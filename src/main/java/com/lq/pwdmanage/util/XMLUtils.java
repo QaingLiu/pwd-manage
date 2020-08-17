@@ -110,5 +110,15 @@ public class XMLUtils {
         }
     }
 
+    /**
+     * 去除XML文件的头部描述
+     * @param xml xml文件内容
+     * @return
+     */
+    public static String stripXMLHeader(String xml) {
+        xml = xml.replaceAll("^<\\?xml.*?\\?>\r?\n?", "");
+        return xml;
+    }
+
 }
 
