@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -33,9 +34,10 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public Page<PwdManage> pageList(int pageIndex, int pageSize, String likeAll) {
         Page<PwdManage> page = new Page<>(pageIndex, pageSize);
+        page.setTotal(0);
 
         List<PwdManage> list = (List<PwdManage>) cacheCliet.get(CacheKeys.PWDMANAGE_DATAS_KEY);
-        if (!list.isEmpty() && !StringUtils.isEmpty(likeAll)) {
+        if (list != null && !list.isEmpty() && !StringUtils.isEmpty(likeAll)) {
             Iterator<PwdManage> iterator = list.iterator();
             while (iterator.hasNext()) {
                 PwdManage pwdManage = iterator.next();
@@ -43,13 +45,14 @@ public class ManageServiceImpl implements ManageService {
                     iterator.remove();
                 }
             }
+
+            page.setTotal(list.size());
         }
 
         //分页处理
         //暂不分页....
 
-        page.setRecords(list);
-        page.setTotal(list.size());
+        page.setRecords(list == null ? new ArrayList<>() : list);
         return page;
     }
 

@@ -61,7 +61,7 @@ function make(num, upA, lowA, special, length) {
             pwd = makePW(length, 0, 61);
             break;
         case !num && upA && lowA && special: //字母加符号
-            makePW(length, 10, 69);
+            pwd = makePW(length, 10, 69);
             break;
         case num && !upA && lowA && special: //数字、小写字母、特殊符号
             pwd = specialMake(length, 0, 69, 10, 35);
