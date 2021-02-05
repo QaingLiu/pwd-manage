@@ -20,13 +20,13 @@
 *说明：所有的数据保存在xml文件中，其中密码、邮箱、手机号、密保问题都是经过加密的*
 
 ## 预览效果
-### 首页
+### 1、首页
 ![首页](https://github.com/QaingLiu/pwd-manage/blob/master/img/index.png?raw=true)
 
-### 新增
+### 2、新增
 ![新增](https://github.com/QaingLiu/pwd-manage/blob/master/img/add.png?raw=true)
 
-### 生成随机密码
+### 3、生成随机密码
 ![生成随机密码](https://github.com/QaingLiu/pwd-manage/blob/master/img/ramPwd.png?raw=true)
 
 ## 版本变更
