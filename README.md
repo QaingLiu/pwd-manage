@@ -8,7 +8,7 @@
 系统非常简单，也很小，直接编译就能正常运行：
 - 1.进入系统目录：pwd-manage
 - 2.maven打包：mvn clean install
-- 3.运行：java -jar .\target\pwd-manage-1.0.0.jar
+- 3.运行：java -jar .\target\pwd-manage-x.x.x.jar
 
 运行完会打印访问地址：
 ---------------------------------------------------------
@@ -26,3 +26,7 @@
 
 ![生成随机密码](https://github.com/QaingLiu/pwd-manage/tree/master/img/ramPwd.png)
 
+## 版本变更
+### 1.1.0版本：
+- 1、新增、编辑提交时，对敏感的信息进行加密传输
+- 2、查询、预览时对敏感的信息进行加密传输
