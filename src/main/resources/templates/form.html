@@ -51,7 +51,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-            <input type="text" name="pwd" th:value="${pwdManage.pwd}" required lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="text" name="pwd" th:value="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(pwdManage.pwd)}" required lay-verify="required" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -79,22 +79,22 @@
     <div class="layui-form-item">
         <label class="layui-form-label">Email</label>
         <div class="layui-input-block">
-            <input type="text" name="email" th:value="${pwdManage.email}" class="layui-input">
+            <input type="text" name="email" th:value="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(pwdManage.email)}" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">手机号</label>
         <div class="layui-input-block">
-            <input type="text" name="mobileNumber" th:value="${pwdManage.mobileNumber}" class="layui-input">
+            <input type="text" name="mobileNumber" th:value="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(pwdManage.mobileNumber)}" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item" th:each="sq,sqStat : ${pwdManage.securityQuestions}">
         <label class="layui-form-label" th:text="'密保问题' + ${sqStat.index + 1}"></label>
         <div class="layui-input-block">
-            <input type="text" name="question[]" th:value="${sq.question}" placeholder="问题" class="layui-input">
-            <input type="text" name="answer[]" th:value="${sq.answer}" placeholder="答案" class="layui-input" style="margin-top: 5px;">
+            <input type="text" name="question[]" th:value="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(sq.question)}" placeholder="问题" class="layui-input">
+            <input type="text" name="answer[]" th:value="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(sq.answer)}" placeholder="答案" class="layui-input" style="margin-top: 5px;">
         </div>
     </div>
 
@@ -117,6 +117,7 @@
 <script th:src="@{/plugins/jquery-1.12.4/jquery.min.js}"></script>
 <!-- layui js -->
 <script th:src="@{/plugins/layui-v2.5.6/layui.all.js}"></script>
+<script th:src="@{/js/SecurityUtil.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     var form = layui.form;
@@ -136,6 +137,11 @@
         var field = data.field;
         //console.log(field);
 
+        //加密
+        field.pwd = field.pwd && SecurityUtil.encryptPublicKey(field.pwd);
+        field.email = field.email && SecurityUtil.encryptPublicKey(field.email);
+        field.mobileNumber = field.mobileNumber && SecurityUtil.encryptPublicKey(field.mobileNumber);
+
         //密保问题
         var securityQuestions = [];
         for (var i = 0; i < length; i++) {
@@ -143,8 +149,8 @@
             var question = field['question['+ i +']'];
             var answer = field['answer['+ i +']'];
             if (question && answer) {
-                securityQuestion['question'] = question;
-                securityQuestion['answer'] = answer;
+                securityQuestion['question'] = SecurityUtil.encryptPublicKey(question);
+                securityQuestion['answer'] = SecurityUtil.encryptPublicKey(answer);
                 securityQuestions.push(securityQuestion);
             }
         }
@@ -153,7 +159,7 @@
         }
 
         var jsonData = JSON.stringify(field);
-        console.log(jsonData);
+        //console.log(jsonData);
 
         var url = "/add";
         if(type == 'edit'){

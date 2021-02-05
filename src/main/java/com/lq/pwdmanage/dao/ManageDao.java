@@ -6,6 +6,7 @@ import com.lq.pwdmanage.cache.CacheCliet;
 import com.lq.pwdmanage.cache.CacheKeys;
 import com.lq.pwdmanage.util.CommonUtils;
 import com.lq.pwdmanage.util.DESUtil;
+import com.lq.pwdmanage.util.RSAUtils;
 import com.lq.pwdmanage.util.XMLUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -82,6 +83,7 @@ public class ManageDao {
 
     /**
      * 根据id查询
+     *
      * @param id
      * @return
      */
@@ -104,6 +106,7 @@ public class ManageDao {
 
     /**
      * Element节点转为PwdManage对象
+     *
      * @param passwordEle
      * @return
      */
@@ -112,7 +115,7 @@ public class ManageDao {
 
         Class<? extends PwdManage> pwdManageClass = pwdManage.getClass();
         Field[] fields = pwdManageClass.getDeclaredFields();
-        for(Field field : fields) {
+        for (Field field : fields) {
             String name = field.getName();
             if (WHITE_LIST.contains(name)) {
                 continue;
@@ -127,8 +130,12 @@ public class ManageDao {
                 String value = passwordEle.elementText(name);
 
                 //需要解密的
-                if(DES_LIST.contains(name) && value != null){
+                if (DES_LIST.contains(name) && value != null) {
+                    //先解密
                     value = DESUtil.decrypt(value);
+
+                    //再加密
+                    value = RSAUtils.encryptByPrivateKey(value);
                 }
 
                 method.invoke(pwdManage, value);
@@ -157,26 +164,32 @@ public class ManageDao {
                     continue;
                 }
 
-                //question
-                String question = SecurityQuestionEle.elementText("question");
+                try {
+                    //question
+                    String question = SecurityQuestionEle.elementText("question");
+                    //answer
+                    String answer = SecurityQuestionEle.elementText("answer");
 
-                //answer
-                String answer = SecurityQuestionEle.elementText("answer");
+                    if (question != null && answer != null) {
+                        //先解密
+                        question = DESUtil.decrypt(question);
+                        answer = DESUtil.decrypt(answer);
 
-                if(question != null && answer != null){
-                    //解密
-                    question = DESUtil.decrypt(question);
-                    answer = DESUtil.decrypt(answer);
+                        //再加密
+                        question = RSAUtils.encryptByPrivateKey(question);
+                        answer = RSAUtils.encryptByPrivateKey(answer);
 
-                    SecurityQuestion securityQuestion = new SecurityQuestion();
-                    securityQuestion.setQuestion(question);
-                    securityQuestion.setAnswer(answer);
-                    //System.out.println(securityQuestion.toString());
-                    securityQuestions.add(securityQuestion);
+                        SecurityQuestion securityQuestion = new SecurityQuestion();
+                        securityQuestion.setQuestion(question);
+                        securityQuestion.setAnswer(answer);
+                        securityQuestions.add(securityQuestion);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
-        if(!securityQuestions.isEmpty()){
+        if (!securityQuestions.isEmpty()) {
             pwdManage.setSecurityQuestions(securityQuestions);
         }
 
@@ -233,15 +246,16 @@ public class ManageDao {
 
     /**
      * 新增或更新
+     *
      * @param passwordEle
      * @param pwdManage
      */
-    private void addOrUpdate(Element passwordEle, PwdManage pwdManage){
+    private void addOrUpdate(Element passwordEle, PwdManage pwdManage) {
         Class<? extends PwdManage> pwdManageClass = pwdManage.getClass();
         Field[] fields = pwdManageClass.getDeclaredFields();
-        for(Field field : fields){
+        for (Field field : fields) {
             String name = field.getName();
-            if(WHITE_LIST.contains(name)){
+            if (WHITE_LIST.contains(name)) {
                 continue;
             }
 
@@ -252,11 +266,16 @@ public class ManageDao {
                 Object value = method.invoke(pwdManage);
 
                 //需要加密的
-                if(DES_LIST.contains(name) && value != null){
-                    String encryptValue = DESUtil.encrypt((String) value);
+                if (DES_LIST.contains(name) && value != null) {
+                    String strVal = (String) value;
+
+                    //先解密
+                    strVal = RSAUtils.decryptByPrivateKey(strVal);
+                    //再加密
+                    String encryptValue = DESUtil.encrypt(strVal);
                     setElementText(passwordEle, name, encryptValue);
                 } else {
-                    setElementText(passwordEle, name, (String)value);
+                    setElementText(passwordEle, name, (String) value);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -268,7 +287,7 @@ public class ManageDao {
         List<SecurityQuestion> securityQuestions = pwdManage.getSecurityQuestions();
         Element securityQuestionsEle = passwordEle.element(name);
         if (securityQuestions != null && !securityQuestions.isEmpty()) {
-            if(securityQuestionsEle != null){
+            if (securityQuestionsEle != null) {
                 //删除改节点，重新新增
                 passwordEle.remove(securityQuestionsEle);
             }
@@ -277,46 +296,55 @@ public class ManageDao {
             for (SecurityQuestion securityQuestion : securityQuestions) {
                 Element securityQuestionEle = securityQuestionsEle.addElement("SecurityQuestion");
 
-                //问题
-                String question = securityQuestion.getQuestion();
-                if(question != null){
-                    //加密
-                    question = DESUtil.encrypt(question);
-                }
-                securityQuestionEle.addElement("question").addText(CommonUtils.emptyStr(question));
+                try {
+                    //问题
+                    String question = securityQuestion.getQuestion();
+                    if (question != null) {
+                        //先解密
+                        question = RSAUtils.decryptByPrivateKey(question);
+                        //再加密
+                        question = DESUtil.encrypt(question);
+                    }
+                    securityQuestionEle.addElement("question").addText(CommonUtils.emptyStr(question));
 
-                //答案
-                String answer = securityQuestion.getAnswer();
-                if(answer != null){
-                    //加密
-                    answer = DESUtil.encrypt(answer);
+                    //答案
+                    String answer = securityQuestion.getAnswer();
+                    if (answer != null) {
+                        //先解密
+                        answer = RSAUtils.decryptByPrivateKey(answer);
+                        //再加密
+                        answer = DESUtil.encrypt(answer);
+                    }
+                    securityQuestionEle.addElement("answer").addText(CommonUtils.emptyStr(answer));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                securityQuestionEle.addElement("answer").addText(CommonUtils.emptyStr(answer));
             }
-        }else{
+        } else {
             passwordEle.remove(securityQuestionsEle);
         }
     }
 
     /**
      * 给节点(Element)设置值
+     *
      * @param passwordEle password节点
      * @param elementName 需要设值的节点名称
      * @param text        设置的文本
      * @return
      */
-    private Element setElementText(Element passwordEle, String elementName, String text){
+    private Element setElementText(Element passwordEle, String elementName, String text) {
         Element element = passwordEle.element(elementName);
-        if(element != null){
+        if (element != null) {
             //删除旧的节点
             passwordEle.remove(element);
         }
         //创建新节点
         passwordEle.addElement(elementName);
 
-        if("remarks".equals(elementName)) {
+        if ("remarks".equals(elementName)) {
             passwordEle.element(elementName).addCDATA(CommonUtils.emptyStr(text));
-        }else{
+        } else {
             passwordEle.element(elementName).setText(CommonUtils.emptyStr(text));
         }
 

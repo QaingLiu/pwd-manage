@@ -46,7 +46,7 @@
             </div>
             <div class="info">
                 <span class="info-title">密码:</span>
-                <span class="info-text" th:text="${pwdManage.pwd}" style="color: red;"></span>
+                <span class="info-text" th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(pwdManage.pwd)}" style="color: red;"></span>
             </div>
             <div class="info">
                 <span class="info-title">用户名:</span>
@@ -62,22 +62,22 @@
             </div>
             <div class="info">
                 <span class="info-title">Email:</span>
-                <span class="info-text" th:text="${pwdManage.email}"></span>
+                <span class="info-text" th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(pwdManage.email)}"></span>
             </div>
             <div class="info">
                 <span class="info-title">手机号:</span>
-                <span class="info-text" th:text="${pwdManage.mobileNumber}"></span>
+                <span class="info-text" th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(pwdManage.mobileNumber)}"></span>
             </div>
             <div class="info" th:each="sq,sqStat : ${pwdManage.securityQuestions}" style="height: 100px;">
                 <div th:text="'密保问题' + ${sqStat.index + 1} + ': '"></div>
                 <div style="margin-left: 20px;">
                     <div>
                         <span style="display: inline-block; width: 50px;">问题:</span>
-                        <span class="info-text" th:text="${sq.question}"></span>
+                        <span class="info-text" th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(sq.question)}"></span>
                     </div>
                     <div>
                         <span style="display: inline-block; width: 50px;">答案:</span>
-                        <span class="info-text" th:text="${sq.answer}"></span>
+                        <span class="info-text" th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(sq.answer)}"></span>
                     </div>
                 </div>
             </div>

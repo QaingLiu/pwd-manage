@@ -10,15 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
  * 管理服务
+ *
  * @author LQ
  * @date 2020/6/10 10:04
  */
@@ -57,8 +56,9 @@ public class ManageServiceImpl implements ManageService {
     }
 
     /**
-     * 过滤
-     * @param likeAll
+     * 查询条件过滤
+     *
+     * @param likeAll   查询条件
      * @param pwdManage
      * @return true 包含，false 不包含
      */

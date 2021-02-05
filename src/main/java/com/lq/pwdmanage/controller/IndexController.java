@@ -10,12 +10,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 /**
  * 首页 控制器
+ *
  * @author LQ
  * @date 2020/6/10 9:32
  */
@@ -28,6 +35,7 @@ public class IndexController {
 
     /**
      * 首页
+     *
      * @param model
      * @return
      */
@@ -40,6 +48,7 @@ public class IndexController {
 
     /**
      * 列表
+     *
      * @param pageIndex
      * @param pageSize
      * @param likeAll
@@ -55,7 +64,8 @@ public class IndexController {
     }
 
     /**
-     * 新增 预览页面
+     * 新增 页面
+     *
      * @return
      */
     @GetMapping("/add-view")
@@ -69,6 +79,7 @@ public class IndexController {
 
     /**
      * 新增
+     *
      * @param model
      * @param pwdManage
      * @return
@@ -82,7 +93,8 @@ public class IndexController {
     }
 
     /**
-     * 编辑 预览页面
+     * 编辑 页面
+     *
      * @return
      */
     @GetMapping("/edit-view/{id}")
@@ -93,9 +105,9 @@ public class IndexController {
         }
 
         List<SecurityQuestion> securityQuestions = pwdManage.getSecurityQuestions();
-        if(securityQuestions == null || securityQuestions.isEmpty()){
+        if (securityQuestions == null || securityQuestions.isEmpty()) {
             pwdManage.setSecurityQuestions(CommonUtils.initSecurityQuestion(CommonUtils.SECURITY_QUESTION_SIZE));
-        }else{
+        } else {
             int size = securityQuestions.size();
             securityQuestions.addAll(CommonUtils.initSecurityQuestion(CommonUtils.SECURITY_QUESTION_SIZE - size));
         }
@@ -107,6 +119,7 @@ public class IndexController {
 
     /**
      * 更新
+     *
      * @param model
      * @param pwdManage
      * @return
@@ -121,6 +134,7 @@ public class IndexController {
 
     /**
      * 删除
+     *
      * @param model
      * @param ids
      * @return
@@ -135,6 +149,7 @@ public class IndexController {
 
     /**
      * 刷新
+     *
      * @return
      */
     @ResponseBody
@@ -145,7 +160,8 @@ public class IndexController {
     }
 
     /**
-     * 查看预览页面
+     * 查看 页面
+     *
      * @return
      */
     @GetMapping("/preview/{id}")
@@ -159,7 +175,8 @@ public class IndexController {
     }
 
     /**
-     * 随机生成密码 预览页面
+     * 随机生成密码 页面
+     *
      * @return
      */
     @GetMapping("/ram-pwd-view")

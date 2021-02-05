@@ -65,17 +65,15 @@
                                     <tbody>
                                     <tr th:each="data,dataState : ${page.records}">
                                         <td align="center" th:text="${dataState.index + 1}"></td>
-                                        <td>
-                                            <a th:href="${data.websiteUrl}" th:text="${data.websiteName}" target="_blank" class="info-text" style="color: blue"></a>
-                                        </td>
+                                        <td th:text="${data.websiteName}" th:onclick="openWeb([[${data.websiteUrl}]])" style="cursor: pointer; color: blue;" th:title="点击打开"></td>
                                         <!--<td th:text="${data.account}"></td>-->
                                         <td th:text="${data.account}" th:onclick="Common.copy(false, [[${data.account}]])" style="cursor: pointer;" th:title="点击复制"></td>
                                         <!--<td th:text="${data.pwd}"></td>-->
-                                        <td th:text="${data.pwd}" th:onclick="Common.copy(false, [[${data.pwd}]])" style="cursor: pointer;" th:title="点击复制"></td>
+                                        <td th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(data.pwd)}" th:onclick="Common.copy(false, [[${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(data.pwd)}]])" style="cursor: pointer;" th:title="点击复制"></td>
                                         <!--<td th:text="${data.nickName}"></td>-->
                                         <td th:text="${data.qq}"></td>
-                                        <td th:text="${data.email}"></td>
-                                        <td align="center" th:text="${data.mobileNumber}"></td>
+                                        <td th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(data.email)}"></td>
+                                        <td align="center" th:text="${T(com.lq.pwdmanage.util.RSAUtils).decryptByPublicKey(data.mobileNumber)}"></td>
                                         <td align="center">
                                             <a href="javascript:void(0)" th:onclick="openPreview([[${data.id}]]);" class="btn btn-link" style="color: blue">
                                                 查看
@@ -109,6 +107,7 @@
 <!-- layui js -->
 <script th:src="@{/plugins/layui-v2.5.6/layui.all.js}"></script>
 <script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/SecurityUtil.js}"></script>
 
 <script type="text/javascript">
     var layer = layui.layer;
@@ -180,6 +179,16 @@
             }
         });
     }
+
+    /**
+     * 打开网站
+     *
+     * @param url
+     */
+    function openWeb(url){
+        window.open(url);
+    }
+
 </script>
 
 </body>
