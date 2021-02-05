@@ -8,7 +8,12 @@
 系统非常简单，也很小，直接编译就能正常运行：
 - 1.进入系统目录：pwd-manage
 - 2.maven打包：mvn clean install
-- 3.运行：java -jar .\target\pwd-manage-x.x.x.jar
+- 3.修改配置：将配置文件application.properties
+
+  3.1 security 认证用户信息，默认用户名：admin，密码：1
+  
+  3.2 xml文件存储路径
+- 4.运行：java -jar .\target\pwd-manage-x.x.x.jar
 
 运行完会打印访问地址：
 ---------------------------------------------------------
